@@ -18,9 +18,9 @@ module OAuth
 
       def call(env)
         request = ::Rack::Request.new(env)
-
-        env[:client_id] = request.env['HTTP_CLIENT_ID']
-        env[:client_secret] = request.env['HTTP_CLIENT_SECRET']
+        %w(grant_type client_id client_secret).each { |_var|
+          env[_var] = request.env["HTTP_#{_var.upcase}"]
+        }
 
         env["oauth_plugin"] = true
         if token_string = oauth2_token(request)

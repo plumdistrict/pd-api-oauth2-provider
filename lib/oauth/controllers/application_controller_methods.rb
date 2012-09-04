@@ -36,8 +36,9 @@ module OAuth
         head 401
       end
       def set_params_from_headers
-        params[:client_id] = env[:client_id] || params[:client_id]
-        params[:client_secret] = env[:client_secret] || params[:client_secret]
+        %w(grant_type client_id client_secret).each { |_var|
+          params[_var] = env[_var] || params[_var]
+        }
       end
     end
   end
