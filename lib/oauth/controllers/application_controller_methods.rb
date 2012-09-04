@@ -35,7 +35,10 @@ module OAuth
       def access_denied
         head 401
       end
-
+      def set_params_from_headers
+        params[:client_id] = env[:client_id] || params[:client_id]
+        params[:client_secret] = env[:client_secret] || params[:client_secret]
+      end
     end
   end
 end

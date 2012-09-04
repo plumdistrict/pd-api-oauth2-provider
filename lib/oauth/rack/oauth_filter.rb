@@ -18,6 +18,10 @@ module OAuth
 
       def call(env)
         request = ::Rack::Request.new(env)
+
+        env[:client_id] = request.env['HTTP_CLIENT_ID']
+        env[:client_secret] = request.env['HTTP_CLIENT_SECRET']
+
         env["oauth_plugin"] = true
         if token_string = oauth2_token(request)
           if token = Oauth2Token.first(:conditions => ['invalidated_at IS NULL AND authorized_at IS NOT NULL and token = ?', token_string])

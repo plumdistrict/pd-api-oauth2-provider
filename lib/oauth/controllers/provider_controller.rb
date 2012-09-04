@@ -5,6 +5,7 @@ module OAuth
     module ProviderController
       def self.included(controller)
         controller.class_eval do
+          before_filter :set_params_from_headers
           before_filter :oauth_required, :only => [:test_request, :capabilities]
           before_filter :login_required, :only => [:revoke, :invalidate]
 
